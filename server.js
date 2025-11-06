@@ -6,7 +6,13 @@ const cors = require("cors");
 // create an instance of express
 const app = express();
 app.use(express.json());
-app.use(cors());
+// app.use(cors());
+
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type"]
+}));
 
 //sample in memory storage for todo items
 // let todos = [];
@@ -109,4 +115,9 @@ app.listen(port, () => {
 //route
 app.get('/', (req, res) => {
     res.send('Backend is running successfully 🚀');
+});
+
+//health check route for debugging
+app.get('/health', (req, res) => {
+  res.json({ status: "ok", message: "MongoDB connected", time: new Date() });
 });
